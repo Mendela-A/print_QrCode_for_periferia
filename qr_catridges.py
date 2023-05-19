@@ -4,6 +4,7 @@
 from tkinter import *
 import subprocess
 import qrcode
+import os
 
 
 def form_data():
@@ -18,7 +19,7 @@ def select_type():
 def gen_qr(data):
     qr = qrcode.QRCode(
         version=5,
-        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        error_correction=qrcode.constants.ERROR_CORRECT_Q,
         box_size=7,
         border=1,
     )
@@ -33,6 +34,8 @@ def print_btn():
     value = form_data()
     gen_qr(value)
     subprocess.run(["lp", "-d", "RT200", '-o', 'fit-to-page', 'qr_code.png'])
+    if os.path.exists("qr_code.png"):
+        os.remove("qr_code.png")
 
 root = Tk()
 root.title('Qrcode Print')
